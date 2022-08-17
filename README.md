@@ -28,3 +28,15 @@ go run ./main.go
 ```bash
 go test ./...
 ```
+
+## Understanding the structure
+Check out my blog post on backend route design for an in depth dive into the structure: https://softgrade.org/in-depth-guide-to-backend-route-design/
+
+### At a high level:
+- routes: validation of requests, returning results, handling errors
+- services: business logic, should not be concerned whatsoever with how they're used (ex. know nothing about HTTP or context)
+- models: request models, response models, and everything in between goes here. Validation + default values are implemented as methods of those models.
+- config, app: self explanatory
+
+### Structural improvements:
+Passing down context from requests to services is usually very useful. It is true that we want to isolate business logic from usecase, but in the case of web servers this is a very acceptable compromise as the context offers many advantages.
