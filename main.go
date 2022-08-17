@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"demo/config"
+	"demo/app"
 	"demo/log"
 	v1 "demo/mappings/v1"
 	"fmt"
@@ -14,14 +14,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
-func HealthCheck(c *gin.Context) {
-	res := map[string]interface{}{
-		"data":    "Server is up and running",
-		"release": config.ConfigSingleton.CommitHash,
-	}
-	c.JSON(http.StatusOK, res)
-}
 
 func HandleErrors(c *gin.Context) {
 	c.Next() // execute all the handlers
@@ -40,19 +32,9 @@ func HandleErrors(c *gin.Context) {
 }
 
 func main() {
-	// Initialize config and logger
-	config.New()
-	log.New()
+	r := app.SetupApp()
 
-	// Set gin to release mode to disable debug logs
-	gin.SetMode(gin.ReleaseMode)
-
-	r := gin.New()
-	r.GET("/", HealthCheck)
-	r.NoRoute(func(c *gin.Context) {
-		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
-	})
-
+	// Only need below code in production, not included in test setup
 	// Logging and recovery
 	r.Use(log.GinZapLogger(log.GetLogger()), log.GinZapRecovery(log.GetLogger(), true))
 
