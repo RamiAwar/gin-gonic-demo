@@ -22,3 +22,9 @@ go run ./main.go
 ```bash
 ❯ curl -X POST localhost:3000/v1/dns/find -H 'Content-Type: application/json' -d '{"x": "123.12", "y": "456.56", "z": "789.89", "vel": "20.0"}'
 ```
+
+
+## Running the tests
+```bash
+go test ./...
+```
