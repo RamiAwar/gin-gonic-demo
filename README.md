@@ -1,4 +1,4 @@
-# gin-gonic-demo
+# Gin Golang Demo Project
 
 Opinionated example Golang web application with Gin Gonic.
 
